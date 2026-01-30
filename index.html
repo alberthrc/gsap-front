@@ -4,28 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meridian Scroll Animation Replica - Orbital</title>
+    <title>Meridian Scroll Animation Replica - Orbital & Footer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
+        :root {
+            --primary-color: #163B6D;
+            --contrast-gray: #4F4C4C;
+            --text-black: #000000;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #ffffff;
             overflow-x: hidden;
+            margin: 0;
+            color: var(--text-black);
         }
 
-        /* El contenedor que girará en conjunto */
+        /* Hero / Orbital Section */
         #orbitalContainer {
             position: absolute;
             width: 100vw;
-            height: 800vh;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             pointer-events: none;
+            z-index: 40;
         }
 
         .image-card {
@@ -41,8 +50,7 @@
 
         .scroll-section {
             height: 400vh;
-            /* Más espacio para un giro más pronunciado */
-            /* Separación extra para que el footer no tape las imágenes */
+            position: relative;
         }
 
         .sticky-container {
@@ -66,8 +74,124 @@
 
         .nav-link {
             font-size: 0.85rem;
-            color: #333;
+            color: var(--contrast-gray);
             font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Footer Styles con animación de aparición */
+        .footer-reveal-wrapper {
+            position: relative;
+            background-color: #000;
+            z-index: 30;
+            transform: translateY(100px);
+            opacity: 0;
+        }
+
+        .footer-section {
+            color: #fff;
+            padding: 120px 5% 40px 5%;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr;
+            gap: 40px;
+            z-index: 10;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .footer-column h4 {
+            color: var(--contrast-gray);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li:hover {
+            color: var(--primary-color);
+        }
+
+        /* Sphere styles */
+        .sphere-container {
+            position: absolute;
+            bottom: -400px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1200px;
+            height: 1200px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .sphere {
+            width: 100%;
+            height: 100%;
+            /* Aplicando el azul principal al degradado */
+            background: radial-gradient(circle at center, rgba(22, 59, 109, 0.45) 0%, rgba(22, 59, 109, 0.1) 45%, transparent 70%);
+            border-radius: 50%;
+            position: relative;
+            transform: rotate(-45deg);
+        }
+
+        .sphere-mesh {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.25;
+            background-image: url("data:image/svg+xml,%3Csvg width='1200' height='1200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='white' stroke-width='0.5' stroke-opacity='0.4'%3E%3Ccircle cx='600' cy='600' r='599'/%3E%3Cpath d='M0 600 Q 600 0 1200 600'/%3E%3Cpath d='M0 600 Q 600 1200 1200 600'/%3E%3Cpath d='M600 0 Q 0 600 600 1200'/%3E%3Cpath d='M600 0 Q 1200 600 600 1200'/%3E%3Cpath d='M175 175 Q 600 600 1025 1025'/%3E%3Cpath d='M1025 175 Q 600 600 175 1025'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: cover;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            transition: background 0.3s;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-color);
+        }
+
+        /* Sección de transición */
+        .spacer-section {
+            height: 50vh;
+            background: white;
         }
     </style>
 </head>
@@ -76,8 +200,8 @@
 
     <header class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 bg-white/80 backdrop-blur-sm">
         <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full border-4 border-black border-dashed"></div>
-            <span class="text-xl font-bold tracking-tight">Meridian</span>
+            <div class="w-8 h-8 rounded-full border-4 border-[#163B6D] border-dashed"></div>
+            <span class="text-xl font-bold tracking-tight text-[#163B6D]">Meridian</span>
         </div>
         <nav class="hidden md:flex gap-8">
             <a href="#" class="nav-link">Platform</a>
@@ -87,30 +211,35 @@
             <a href="#" class="nav-link">Careers</a>
         </nav>
         <div class="flex gap-4">
-            <button class="px-5 py-2 border border-black rounded-lg text-sm font-medium">Login</button>
-            <button class="px-5 py-2 bg-[#ff6b00] text-white rounded-lg text-sm font-medium">Get a demo</button>
+            <button
+                class="px-5 py-2 border border-black rounded-lg text-sm font-medium hover:bg-black hover:text-white transition-colors">Login</button>
+            <button
+                class="px-5 py-2 bg-[#163B6D] text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">Get
+                a demo</button>
         </div>
     </header>
 
     <main>
+        <!-- Hero Section con Animación Orbital -->
         <section class="scroll-section">
             <div class="sticky-container">
 
-                <!-- Texto central -->
                 <div class="cta-content" id="centerText">
-                    <p class="text-2xl md:text-3xl font-medium leading-tight mb-8 px-4 text-black">
+                    <p class="text-2xl md:text-3xl font-medium leading-tight mb-8 px-4 text-[#000000]">
                         AI isn't just disrupting how people search. It's deciding what they see and what they don't.
                         If your brand isn't part of the answer, it's not part of the conversation.
                     </p>
-                    <button class="bg-[#ff6b00] text-white px-8 py-3 rounded-lg font-semibold">
+                    <button
+                        class="bg-[#163B6D] text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow">
                         Get a demo
                     </button>
                     <div class="mt-4">
-                        <a href="#" class="text-sm underline text-gray-500">Explore our product further</a>
+                        <a href="#"
+                            class="text-sm underline text-[#4F4C4C] hover:text-[#163B6D] transition-colors">Explore our
+                            product further</a>
                     </div>
                 </div>
 
-                <!-- Contenedor Orbital que gira -->
                 <div id="orbitalContainer">
                     <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400"
                         alt="Chef" class="image-card img-1">
@@ -133,18 +262,94 @@
             </div>
         </section>
 
-        <section class="h-screen flex items-center justify-center bg-transparent">
-            <h2 class="text-4xl font-bold text-gray-300">Keep Exploring</h2>
-        </section>
+        <div class="spacer-section"></div>
+
+        <!-- Footer Section -->
+        <div class="footer-reveal-wrapper" id="footerReveal">
+            <footer class="footer-section">
+                <div class="footer-grid" id="footerContent">
+                    <!-- Columna 1 -->
+                    <div class="footer-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li>Platform</li>
+                            <li>Brand Analytics</li>
+                            <li>Website Insights</li>
+                            <li>Improvement Actions</li>
+                            <li>Product-level Tracking</li>
+                            <li>Meridian Agent</li>
+                            <li>Content Creation</li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna 2 -->
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li>Enterprise</li>
+                            <li>Documentation</li>
+                            <li>Blog</li>
+                            <li>Pricing</li>
+                            <li>Careers</li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna 3: CTA -->
+                    <div class="footer-column flex flex-col items-start">
+                        <h2 class="text-4xl md:text-6xl font-semibold mb-6 leading-tight">Get your visibility snapshot.
+                        </h2>
+                        <p class="text-gray-400 text-lg mb-8 max-w-md">
+                            See how your brand shows up in AI, then get actionable insights to improve.
+                        </p>
+                        <div class="flex gap-4">
+                            <button
+                                class="bg-[#163B6D] text-white px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all">
+                                Get started
+                            </button>
+                            <button
+                                class="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-lg font-semibold hover:bg-white/20 transition-colors">
+                                Explore our product further
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Bar -->
+                <div
+                    class="flex flex-col md:flex-row justify-between items-center pt-20 pb-4 border-t border-white/10 z-10 relative">
+                    <div class="flex gap-4 mb-4 md:mb-0">
+                        <a href="#" class="social-icon"><span class="text-xs">in</span></a>
+                        <a href="#" class="social-icon"><span class="text-xs">X</span></a>
+                    </div>
+
+                    <div class="text-xs text-[#4F4C4C] text-center">
+                        @ 2025 Meridian. All Rights Reserved.
+                    </div>
+
+                    <div class="flex gap-8 text-xs text-[#4F4C4C] mt-4 md:mt-0">
+                        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-white transition-colors">Terms & Conditions</a>
+                    </div>
+                </div>
+
+                <!-- Animated Sphere -->
+                <div class="sphere-container">
+                    <div class="sphere" id="footerSphere">
+                        <div class="sphere-mesh"></div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </main>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
         window.onload = () => {
-            const totalRotation = 90; // Grados totales de rotación del conjunto
+            const totalRotation = 90;
 
-            const timeline = gsap.timeline({
+            // Timeline para la sección hero
+            const heroTimeline = gsap.timeline({
                 scrollTrigger: {
                     trigger: ".scroll-section",
                     start: "top top",
@@ -153,54 +358,66 @@
                 }
             });
 
-            // 1. Rotamos el contenedor del conjunto en sentido horario
-            timeline.to("#orbitalContainer", {
-                rotation: totalRotation,
-                ease: "power1.inOut"
-            }, 0);
+            heroTimeline.to("#orbitalContainer", { rotation: totalRotation, ease: "power1.inOut" }, 0);
+            heroTimeline.to(".img-1", { x: -450, y: -300, rotation: -105 }, 0);
+            heroTimeline.to(".img-2", { x: 50, y: -450, rotation: -80 }, 0);
+            heroTimeline.to(".img-3", { x: 500, y: -320, rotation: -85 }, 0);
+            heroTimeline.to(".img-4", { x: 600, y: 50, rotation: -100 }, 0);
+            heroTimeline.to(".img-5", { x: 450, y: 400, rotation: -75 }, 0);
+            heroTimeline.to(".img-6", { x: -50, y: 500, rotation: -95 }, 0);
+            heroTimeline.to(".img-7", { x: -550, y: 350, rotation: -102 }, 0);
+            heroTimeline.to(".img-8", { x: -650, y: -50, rotation: -82 }, 0);
+            heroTimeline.to("#centerText", { opacity: 1, y: 0, duration: 0.5 }, 0.3);
+            heroTimeline.to(".image-card", { opacity: 0.9, scale: 0.95, duration: 0.4 }, 0.7);
 
-            // 2. (OMITIDO) La rotación global se integra en cada imagen para dar inclinaciones únicas
-
-            // 3. Dispersión radial con inclinación individual (Tilt)
-            // Base "vertical" es -90 grados (porque el contenedor rota +90)
-
-            // Arriba Izquierda (-15 grados inclinación visual -> -105)
-            timeline.to(".img-1", { x: -450, y: -300, rotation: -105 }, 0);
-
-            // Arriba Centro/Derecha (+10 grados -> -80)
-            timeline.to(".img-2", { x: 50, y: -450, rotation: -80 }, 0);
-
-            // Arriba Derecha (+5 grados -> -85)
-            timeline.to(".img-3", { x: 500, y: -320, rotation: -85 }, 0);
-
-            // Centro Derecha (-10 grados -> -100)
-            timeline.to(".img-4", { x: 600, y: 50, rotation: -100 }, 0);
-
-            // Abajo Derecha (+15 grados -> -75)
-            timeline.to(".img-5", { x: 450, y: 400, rotation: -75 }, 0);
-
-            // Abajo Centro/Izquierda (-5 grados -> -95)
-            timeline.to(".img-6", { x: -50, y: 500, rotation: -95 }, 0);
-
-            // Abajo Izquierda (-12 grados -> -102)
-            timeline.to(".img-7", { x: -550, y: 350, rotation: -102 }, 0);
-
-            // Centro Izquierda (+8 grados -> -82)
-            timeline.to(".img-8", { x: -650, y: -50, rotation: -82 }, 0);
-
-            // 4. Aparición del texto central
-            timeline.to("#centerText", {
+            // APARICIÓN GRADUAL DEL FOOTER
+            gsap.to("#footerReveal", {
                 opacity: 1,
                 y: 0,
-                duration: 0.5
-            }, 0.3);
+                scrollTrigger: {
+                    trigger: "#footerReveal",
+                    start: "top 90%",
+                    end: "top 40%",
+                    scrub: 1,
+                }
+            });
 
-            // 5. Desvanecimiento de imágenes al final
-            timeline.to(".image-card", {
-                opacity: 0.9,
-                scale: 0.95,
-                duration: 0.4
-            }, 0.7);
+            // Aparición de los textos del footer
+            gsap.to("#footerContent", {
+                opacity: 1,
+                y: 0,
+                scrollTrigger: {
+                    trigger: "#footerReveal",
+                    start: "top 70%",
+                    end: "top 30%",
+                    scrub: 1,
+                }
+            });
+
+            // ROTACIÓN DE LA ESFERA
+            gsap.to("#footerSphere", {
+                rotation: 360,
+                duration: 50,
+                repeat: -1,
+                ease: "none"
+            });
+
+            // Movimiento orbital de la esfera
+            gsap.fromTo("#footerSphere",
+                { x: "-20%", y: 200, scale: 0.7, opacity: 0.3 },
+                {
+                    x: "0%",
+                    y: 0,
+                    scale: 1,
+                    opacity: 1,
+                    scrollTrigger: {
+                        trigger: "#footerReveal",
+                        start: "top bottom",
+                        end: "bottom bottom",
+                        scrub: 2
+                    }
+                }
+            );
         };
     </script>
 </body>
