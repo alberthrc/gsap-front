@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meridian Scroll Animation Replica - Final</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Contenedor orbital que agrupa las imágenes */
+        #orbitalContainer {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .image-card {
+            width: 280px;
+            height: 350px;
+            border-radius: 12px;
+            object-fit: cover;
+            position: absolute;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            will-change: transform;
+            pointer-events: auto;
+            /* Aseguramos opacidad total desde el inicio */
+            opacity: 1;
+        }
+
+        .scroll-section {
+            height: 400vh;
+            position: relative;
+        }
+
+        .sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Mantenemos overflow visible para que las imágenes no se corten al bajar */
+            overflow: visible;
+        }
+
+        .cta-content {
+            text-align: center;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            z-index: 10;
+            position: relative;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .next-section {
+            padding: 150px 10%;
+            background: white;
+            position: relative;
+            z-index: 5;
+            /* El texto de abajo queda por debajo de las imágenes que caen */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 bg-white/80 backdrop-blur-sm">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full border-4 border-black border-dashed"></div>
+            <span class="text-xl font-bold tracking-tight text-black">Meridian</span>
+        </div>
+        <nav class="hidden md:flex gap-8">
+            <a href="#" class="nav-link">Platform</a>
+            <a href="#" class="nav-link">Docs</a>
+            <a href="#" class="nav-link">Resources</a>
+            <a href="#" class="nav-link">Pricing</a>
+            <a href="#" class="nav-link">Careers</a>
+        </nav>
+        <div class="flex gap-4 text-black">
+            <button class="px-5 py-2 border border-black rounded-lg text-sm font-medium">Login</button>
+            <button class="px-5 py-2 bg-[#ff6b00] text-white rounded-lg text-sm font-medium">Get a demo</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Sección de Animación -->
+        <section class="scroll-section">
+            <div class="sticky-container">
+
+                <!-- Contenido central que aparece -->
+                <div class="cta-content" id="centerText">
+                    <p class="text-2xl md:text-4xl font-medium leading-tight mb-8 px-4 text-black">
+                        AI isn't just disrupting how people search. It's deciding what they see and what they don't.
+                    </p>
+                    <button
+                        class="bg-[#ff6b00] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#e65a00] transition-colors">
+                        Get a demo
+                    </button>
+                    <div class="mt-4">
+                        <a href="#" class="text-sm underline text-gray-500">Explore our product further</a>
+                    </div>
+                </div>
+
+                <!-- Imágenes que orbitan y se dispersan -->
+                <div id="orbitalContainer">
+                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400"
+                        alt="Chef" class="image-card img-1">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=400"
+                        alt="Playa" class="image-card img-2">
+                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=400"
+                        alt="Laptop" class="image-card img-3">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=400"
+                        alt="Tarjeta" class="image-card img-4">
+                    <img src="https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&q=80&w=400"
+                        alt="Termostato" class="image-card img-5">
+                    <img src="https://images.unsplash.com/photo-1556742111-a301076d9d18?auto=format&fit=crop&q=80&w=400"
+                        alt="Pago" class="image-card img-6">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=400"
+                        alt="Cámara" class="image-card img-7">
+                    <img src="https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?auto=format&fit=crop&q=80&w=400"
+                        alt="Casa" class="image-card img-8">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sección de continuidad -->
+        <section class="next-section">
+            <h2 class="text-5xl md:text-7xl font-semibold text-black max-w-5xl leading-[1.1]">
+                Visibility, insights, improvement actions. One automated platform.
+            </h2>
+        </section>
+
+        <section class="h-screen flex items-center justify-center bg-gray-50">
+            <h2 class="text-3xl font-light text-gray-400">Desplazamiento fluido completado</h2>
+        </section>
+    </main>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.onload = () => {
+            const rotationDegrees = 100; // Ángulo de rotación del conjunto
+
+            const timeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".scroll-section",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1.5,
+                    invalidateOnRefresh: true
+                }
+            });
+
+            // 1. Rotación del contenedor (Conjunto circular)
+            timeline.to("#orbitalContainer", {
+                rotation: rotationDegrees,
+                ease: "none"
+            }, 0);
+
+            // 2. Contrarrotación de las imágenes para que no se inclinen
+            timeline.to(".image-card", {
+                rotation: -rotationDegrees,
+                ease: "none"
+            }, 0);
+
+            // 3. Dispersión radial (Sin desvanecimiento)
+            timeline.to(".img-1", { x: -480, y: -380 }, 0);
+            timeline.to(".img-2", { x: 100, y: -520 }, 0);
+            timeline.to(".img-3", { x: 580, y: -400 }, 0);
+            timeline.to(".img-4", { x: 680, y: 120 }, 0);
+            timeline.to(".img-5", { x: 520, y: 600 }, 0); // Bajan sobre la sig. sección
+            timeline.to(".img-6", { x: -100, y: 700 }, 0); // Bajan sobre la sig. sección
+            timeline.to(".img-7", { x: -620, y: 480 }, 0);
+            timeline.to(".img-8", { x: -750, y: -100 }, 0);
+
+            // 4. Aparición del texto central (Aparece y se queda)
+            timeline.to("#centerText", {
+                opacity: 1,
+                y: 0,
+                duration: 0.5
+            }, 0.2);
+
+            // Nota: Se ha eliminado la animación de opacidad final. 
+            // Las imágenes mantienen opacity: 1 en todo momento.
+        };
+    </script>
+</body>
+
+</html>

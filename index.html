@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meridian Scroll Animation Replica - Orbital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* El contenedor que girará en conjunto */
+        #orbitalContainer {
+            position: absolute;
+            width: 100vw;
+            height: 800vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .image-card {
+            width: 280px;
+            height: 350px;
+            border-radius: 12px;
+            object-fit: cover;
+            position: absolute;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            will-change: transform;
+            pointer-events: auto;
+        }
+
+        .scroll-section {
+            height: 400vh;
+            /* Más espacio para un giro más pronunciado */
+            /* Separación extra para que el footer no tape las imágenes */
+        }
+
+        .sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+        }
+
+        .cta-content {
+            text-align: center;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            z-index: 10;
+            position: relative;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            color: #333;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 bg-white/80 backdrop-blur-sm">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full border-4 border-black border-dashed"></div>
+            <span class="text-xl font-bold tracking-tight">Meridian</span>
+        </div>
+        <nav class="hidden md:flex gap-8">
+            <a href="#" class="nav-link">Platform</a>
+            <a href="#" class="nav-link">Docs</a>
+            <a href="#" class="nav-link">Resources</a>
+            <a href="#" class="nav-link">Pricing</a>
+            <a href="#" class="nav-link">Careers</a>
+        </nav>
+        <div class="flex gap-4">
+            <button class="px-5 py-2 border border-black rounded-lg text-sm font-medium">Login</button>
+            <button class="px-5 py-2 bg-[#ff6b00] text-white rounded-lg text-sm font-medium">Get a demo</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="scroll-section">
+            <div class="sticky-container">
+
+                <!-- Texto central -->
+                <div class="cta-content" id="centerText">
+                    <p class="text-2xl md:text-3xl font-medium leading-tight mb-8 px-4 text-black">
+                        AI isn't just disrupting how people search. It's deciding what they see and what they don't.
+                        If your brand isn't part of the answer, it's not part of the conversation.
+                    </p>
+                    <button class="bg-[#ff6b00] text-white px-8 py-3 rounded-lg font-semibold">
+                        Get a demo
+                    </button>
+                    <div class="mt-4">
+                        <a href="#" class="text-sm underline text-gray-500">Explore our product further</a>
+                    </div>
+                </div>
+
+                <!-- Contenedor Orbital que gira -->
+                <div id="orbitalContainer">
+                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400"
+                        alt="Chef" class="image-card img-1">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=400"
+                        alt="Beach" class="image-card img-2">
+                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=400"
+                        alt="Laptop" class="image-card img-3">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=400"
+                        alt="Credit Card" class="image-card img-4">
+                    <img src="https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&q=80&w=400"
+                        alt="Smart Device" class="image-card img-5">
+                    <img src="https://images.unsplash.com/photo-1556742111-a301076d9d18?auto=format&fit=crop&q=80&w=400"
+                        alt="POS Terminal" class="image-card img-6">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=400"
+                        alt="Camera" class="image-card img-7">
+                    <img src="https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?auto=format&fit=crop&q=80&w=400"
+                        alt="House" class="image-card img-8">
+                </div>
+
+            </div>
+        </section>
+
+        <section class="h-screen flex items-center justify-center bg-transparent">
+            <h2 class="text-4xl font-bold text-gray-300">Keep Exploring</h2>
+        </section>
+    </main>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.onload = () => {
+            const totalRotation = 90; // Grados totales de rotación del conjunto
+
+            const timeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".scroll-section",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1.5
+                }
+            });
+
+            // 1. Rotamos el contenedor del conjunto en sentido horario
+            timeline.to("#orbitalContainer", {
+                rotation: totalRotation,
+                ease: "power1.inOut"
+            }, 0);
+
+            // 2. Aplicamos rotación inversa a cada imagen para que se mantengan verticales
+            timeline.to(".image-card", {
+                rotation: -totalRotation,
+                ease: "power1.inOut"
+            }, 0);
+
+            // 3. Dispersión radial de las imágenes (dentro del contenedor que rota)
+            // Arriba Izquierda
+            timeline.to(".img-1", { x: -450, y: -300 }, 0);
+            // Arriba
+            timeline.to(".img-2", { x: 50, y: -450 }, 0);
+            // Arriba Derecha
+            timeline.to(".img-3", { x: 500, y: -320 }, 0);
+            // Derecha
+            timeline.to(".img-4", { x: 600, y: 50 }, 0);
+            // Abajo Derecha
+            timeline.to(".img-5", { x: 450, y: 400 }, 0);
+            // Abajo
+            timeline.to(".img-6", { x: -50, y: 500 }, 0);
+            // Abajo Izquierda
+            timeline.to(".img-7", { x: -550, y: 350 }, 0);
+            // Izquierda
+            timeline.to(".img-8", { x: -650, y: -50 }, 0);
+
+            // 4. Aparición del texto central
+            timeline.to("#centerText", {
+                opacity: 1,
+                y: 0,
+                duration: 0.5
+            }, 0.3);
+
+            // 5. Desvanecimiento de imágenes al final
+            timeline.to(".image-card", {
+                opacity: 0.9,
+                scale: 0.95,
+                duration: 0.4
+            }, 0.7);
+        };
+    </script>
+</body>
+
+</html>
