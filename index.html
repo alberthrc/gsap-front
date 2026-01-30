@@ -159,29 +159,34 @@
                 ease: "power1.inOut"
             }, 0);
 
-            // 2. Aplicamos rotación inversa a cada imagen para que se mantengan verticales
-            timeline.to(".image-card", {
-                rotation: -totalRotation,
-                ease: "power1.inOut"
-            }, 0);
+            // 2. (OMITIDO) La rotación global se integra en cada imagen para dar inclinaciones únicas
 
-            // 3. Dispersión radial de las imágenes (dentro del contenedor que rota)
-            // Arriba Izquierda
-            timeline.to(".img-1", { x: -450, y: -300 }, 0);
-            // Arriba
-            timeline.to(".img-2", { x: 50, y: -450 }, 0);
-            // Arriba Derecha
-            timeline.to(".img-3", { x: 500, y: -320 }, 0);
-            // Derecha
-            timeline.to(".img-4", { x: 600, y: 50 }, 0);
-            // Abajo Derecha
-            timeline.to(".img-5", { x: 450, y: 400 }, 0);
-            // Abajo
-            timeline.to(".img-6", { x: -50, y: 500 }, 0);
-            // Abajo Izquierda
-            timeline.to(".img-7", { x: -550, y: 350 }, 0);
-            // Izquierda
-            timeline.to(".img-8", { x: -650, y: -50 }, 0);
+            // 3. Dispersión radial con inclinación individual (Tilt)
+            // Base "vertical" es -90 grados (porque el contenedor rota +90)
+
+            // Arriba Izquierda (-15 grados inclinación visual -> -105)
+            timeline.to(".img-1", { x: -450, y: -300, rotation: -105 }, 0);
+
+            // Arriba Centro/Derecha (+10 grados -> -80)
+            timeline.to(".img-2", { x: 50, y: -450, rotation: -80 }, 0);
+
+            // Arriba Derecha (+5 grados -> -85)
+            timeline.to(".img-3", { x: 500, y: -320, rotation: -85 }, 0);
+
+            // Centro Derecha (-10 grados -> -100)
+            timeline.to(".img-4", { x: 600, y: 50, rotation: -100 }, 0);
+
+            // Abajo Derecha (+15 grados -> -75)
+            timeline.to(".img-5", { x: 450, y: 400, rotation: -75 }, 0);
+
+            // Abajo Centro/Izquierda (-5 grados -> -95)
+            timeline.to(".img-6", { x: -50, y: 500, rotation: -95 }, 0);
+
+            // Abajo Izquierda (-12 grados -> -102)
+            timeline.to(".img-7", { x: -550, y: 350, rotation: -102 }, 0);
+
+            // Centro Izquierda (+8 grados -> -82)
+            timeline.to(".img-8", { x: -650, y: -50, rotation: -82 }, 0);
 
             // 4. Aparición del texto central
             timeline.to("#centerText", {
