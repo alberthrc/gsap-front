@@ -17,114 +17,84 @@
             --text-black: #000000;
         }
 
-        /* Prevención total de scroll lateral y huecos blancos */
-        html,
         body {
             font-family: 'Inter', sans-serif;
             background-color: #ffffff;
             overflow-x: hidden;
             margin: 0;
-            padding: 0;
-            width: 100%;
             color: var(--text-black);
         }
 
         /* Hero / Orbital Section */
         #orbitalContainer {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             pointer-events: none;
-            z-index: 100;
-            /* Siempre por encima del footer */
+            z-index: 40;
         }
 
         .image-card {
-            width: 150px;
-            /* Tamaño adaptado para móvil */
-            height: 190px;
+            width: 280px;
+            height: 350px;
             border-radius: 12px;
             object-fit: cover;
             position: absolute;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             will-change: transform;
             pointer-events: auto;
-            transform: translate(-50%, -50%);
-            left: 50%;
-            top: 50%;
-        }
-
-        @media (min-width: 1024px) {
-            .image-card {
-                width: 280px;
-                height: 350px;
-            }
         }
 
         .scroll-section {
-            height: 100vh;
+            height: 400vh;
             position: relative;
-            width: 100%;
-            z-index: 10;
         }
 
         .sticky-container {
+            position: sticky;
+            top: 0;
             height: 100vh;
-            /* Altura dinámica real para móviles */
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: visible;
-            /* Permite que las imágenes bajen sobre el footer sin cortarse */
-        }
-
-        @media (min-width: 1024px) {
-            .sticky-container {
-                height: 100vh;
-                padding-top: 80px;
-                /* Compensa el header fijo para centrado óptico */
-            }
-
-            #orbitalContainer {
-                top: 80px;
-                height: calc(100% - 80px);
-            }
         }
 
         .cta-content {
             text-align: center;
-            max-width: 90%;
+            max-width: 600px;
             opacity: 0;
             transform: translateY(20px);
             z-index: 10;
             position: relative;
         }
 
-        @media (min-width: 768px) {
-            .cta-content {
-                max-width: 600px;
-            }
+        .nav-link {
+            font-size: 0.85rem;
+            color: var(--contrast-gray);
+            font-weight: 500;
+            transition: color 0.3s;
         }
 
-        /* Footer con solapamiento */
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Footer Styles con animación de aparición */
         .footer-reveal-wrapper {
             position: relative;
             background-color: #000;
-            z-index: 50;
-            /* Por debajo de las imágenes (100) pero encima del fondo blanco */
-            width: 100%;
-            margin-top: -50vh;
-            /* SOLUCIÓN: El footer sube sobre la sección anterior eliminando el hueco blanco */
+            z-index: 30;
+            transform: translateY(100px);
+            opacity: 0;
         }
 
         .footer-section {
             color: #fff;
-            padding: 100px 5% 40px 5%;
+            padding: 120px 5% 40px 5%;
             position: relative;
             overflow: hidden;
             min-height: 100vh;
@@ -135,20 +105,16 @@
 
         .footer-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr 2fr;
             gap: 40px;
             z-index: 10;
             position: relative;
-        }
-
-        @media (min-width: 1024px) {
-            .footer-grid {
-                grid-template-columns: 1fr 1fr 2fr;
-            }
+            opacity: 0;
+            transform: translateY(30px);
         }
 
         .footer-column h4 {
-            color: #666;
+            color: var(--contrast-gray);
             text-transform: uppercase;
             font-size: 0.75rem;
             letter-spacing: 1px;
@@ -163,36 +129,36 @@
 
         .footer-column ul li {
             margin-bottom: 12px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #fff;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li:hover {
+            color: var(--primary-color);
         }
 
         /* Sphere styles */
         .sphere-container {
             position: absolute;
-            bottom: -300px;
+            bottom: -400px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 1/1;
+            width: 1200px;
+            height: 1200px;
             z-index: 1;
             pointer-events: none;
-        }
-
-        @media (min-width: 1024px) {
-            .sphere-container {
-                bottom: -400px;
-                max-width: 1200px;
-            }
         }
 
         .sphere {
             width: 100%;
             height: 100%;
+            /* Aplicando el azul principal al degradado */
             background: radial-gradient(circle at center, rgba(22, 59, 109, 0.45) 0%, rgba(22, 59, 109, 0.1) 45%, transparent 70%);
             border-radius: 50%;
             position: relative;
+            transform: rotate(-45deg);
         }
 
         .sphere-mesh {
@@ -201,33 +167,55 @@
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.15;
-            background-image: url("data:image/svg+xml,%3Csvg width='600' height='600' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='white' stroke-width='0.5' stroke-opacity='0.4'%3E%3Ccircle cx='300' cy='300' r='299'/%3E%3Cpath d='M0 300 Q 300 0 600 300'/%3E%3Cpath d='M0 300 Q 300 600 600 300'/%3E%3Cpath d='M300 0 Q 0 300 300 600'/%3E%3Cpath d='M300 0 Q 600 300 300 600'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.25;
+            background-image: url("data:image/svg+xml,%3Csvg width='1200' height='1200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='white' stroke-width='0.5' stroke-opacity='0.4'%3E%3Ccircle cx='600' cy='600' r='599'/%3E%3Cpath d='M0 600 Q 600 0 1200 600'/%3E%3Cpath d='M0 600 Q 600 1200 1200 600'/%3E%3Cpath d='M600 0 Q 0 600 600 1200'/%3E%3Cpath d='M600 0 Q 1200 600 600 1200'/%3E%3Cpath d='M175 175 Q 600 600 1025 1025'/%3E%3Cpath d='M1025 175 Q 600 600 175 1025'/%3E%3C/g%3E%3C/svg%3E");
             background-size: cover;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            transition: background 0.3s;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-color);
+        }
+
+        /* Sección de transición */
+        .spacer-section {
+            height: 50vh;
+            background: white;
         }
     </style>
 </head>
 
 <body>
 
-    <header
-        class="fixed top-0 left-0 w-full p-4 md:p-6 flex justify-between items-center z-[150] bg-white/80 backdrop-blur-sm">
+    <header class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 bg-white/80 backdrop-blur-sm">
         <div class="flex items-center gap-2">
-            <div class="w-6 h-6 md:w-8 md:h-8 rounded-full border-4 border-[#163B6D] border-dashed"></div>
-            <span class="text-lg md:text-xl font-bold tracking-tight text-[#163B6D]">Meridian</span>
+            <div class="w-8 h-8 rounded-full border-4 border-[#163B6D] border-dashed"></div>
+            <span class="text-xl font-bold tracking-tight text-[#163B6D]">Meridian</span>
         </div>
-        <nav class="hidden lg:flex gap-8">
+        <nav class="hidden md:flex gap-8">
             <a href="#" class="nav-link">Platform</a>
             <a href="#" class="nav-link">Docs</a>
             <a href="#" class="nav-link">Resources</a>
             <a href="#" class="nav-link">Pricing</a>
             <a href="#" class="nav-link">Careers</a>
         </nav>
-        <div class="flex gap-2 md:gap-4">
+        <div class="flex gap-4">
             <button
-                class="px-3 py-1.5 md:px-5 md:py-2 border border-black rounded-lg text-xs md:text-sm font-medium">Login</button>
+                class="px-5 py-2 border border-black rounded-lg text-sm font-medium hover:bg-black hover:text-white transition-colors">Login</button>
             <button
-                class="px-3 py-1.5 md:px-5 md:py-2 bg-[#163B6D] text-white rounded-lg text-xs md:text-sm font-medium">Demo</button>
+                class="px-5 py-2 bg-[#163B6D] text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">Get
+                a demo</button>
         </div>
     </header>
 
@@ -237,14 +225,19 @@
             <div class="sticky-container">
 
                 <div class="cta-content" id="centerText">
-                    <p class="text-xl md:text-3xl font-medium leading-tight mb-6 md:mb-8 px-2 text-[#000000]">
+                    <p class="text-2xl md:text-3xl font-medium leading-tight mb-8 px-4 text-[#000000]">
                         AI isn't just disrupting how people search. It's deciding what they see and what they don't.
                         If your brand isn't part of the answer, it's not part of the conversation.
                     </p>
                     <button
-                        class="bg-[#163B6D] text-white px-6 py-2.5 md:px-8 md:py-3 rounded-lg font-semibold text-sm md:text-base">
+                        class="bg-[#163B6D] text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow">
                         Get a demo
                     </button>
+                    <div class="mt-4">
+                        <a href="#"
+                            class="text-sm underline text-[#4F4C4C] hover:text-[#163B6D] transition-colors">Explore our
+                            product further</a>
+                    </div>
                 </div>
 
                 <div id="orbitalContainer">
@@ -269,23 +262,31 @@
             </div>
         </section>
 
-        <!-- Footer Section (Sin spacer-section para eliminar el hueco blanco) -->
+        <div class="spacer-section"></div>
+
+        <!-- Footer Section -->
         <div class="footer-reveal-wrapper" id="footerReveal">
             <footer class="footer-section">
                 <div class="footer-grid" id="footerContent">
+                    <!-- Columna 1 -->
                     <div class="footer-column">
-                        <h4>Platform</h4>
+                        <h4>Quick Links</h4>
                         <ul>
+                            <li>Platform</li>
                             <li>Brand Analytics</li>
                             <li>Website Insights</li>
-                            <li>Website Improvement</li>
+                            <li>Improvement Actions</li>
+                            <li>Product-level Tracking</li>
                             <li>Meridian Agent</li>
+                            <li>Content Creation</li>
                         </ul>
                     </div>
 
+                    <!-- Columna 2 -->
                     <div class="footer-column">
                         <h4>Company</h4>
                         <ul>
+                            <li>Enterprise</li>
                             <li>Documentation</li>
                             <li>Blog</li>
                             <li>Pricing</li>
@@ -293,18 +294,22 @@
                         </ul>
                     </div>
 
+                    <!-- Columna 3: CTA -->
                     <div class="footer-column flex flex-col items-start">
-                        <h2 class="text-3xl md:text-7xl font-semibold mb-6 leading-tight">Get your visibility snapshot.
+                        <h2 class="text-4xl md:text-6xl font-semibold mb-6 leading-tight">Get your visibility snapshot.
                         </h2>
                         <p class="text-gray-400 text-lg mb-8 max-w-md">
                             See how your brand shows up in AI, then get actionable insights to improve.
                         </p>
-                        <div class="flex flex-wrap gap-4">
-                            <button class="bg-[#163B6D] text-white px-8 py-3 rounded-lg font-semibold text-base">Get
-                                started</button>
+                        <div class="flex gap-4">
                             <button
-                                class="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-lg font-semibold text-base backdrop-blur">Explore
-                                product</button>
+                                class="bg-[#163B6D] text-white px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all">
+                                Get started
+                            </button>
+                            <button
+                                class="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-lg font-semibold hover:bg-white/20 transition-colors">
+                                Explore our product further
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -313,13 +318,17 @@
                 <div
                     class="flex flex-col md:flex-row justify-between items-center pt-20 pb-4 border-t border-white/10 z-10 relative">
                     <div class="flex gap-4 mb-4 md:mb-0">
-                        <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">in</div>
-                        <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">X</div>
+                        <a href="#" class="social-icon"><span class="text-xs">in</span></a>
+                        <a href="#" class="social-icon"><span class="text-xs">X</span></a>
                     </div>
-                    <div class="text-[10px] text-[#4F4C4C] text-center">@ 2025 Meridian. All Rights Reserved.</div>
-                    <div class="flex gap-8 text-[10px] text-[#4F4C4C] mt-4 md:mt-0">
-                        <span>Privacy Policy</span>
-                        <span>Terms & Conditions</span>
+
+                    <div class="text-xs text-[#4F4C4C] text-center">
+                        @ 2025 Meridian. All Rights Reserved.
+                    </div>
+
+                    <div class="flex gap-8 text-xs text-[#4F4C4C] mt-4 md:mt-0">
+                        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-white transition-colors">Terms & Conditions</a>
                     </div>
                 </div>
 
@@ -337,71 +346,70 @@
         gsap.registerPlugin(ScrollTrigger);
 
         window.onload = () => {
-            let mm = gsap.matchMedia();
+            const totalRotation = 90;
 
-            mm.add({
-                isDesktop: "(min-width: 1024px)",
-                isMobile: "(max-width: 1023px)"
-            }, (context) => {
-                let { isDesktop } = context.conditions;
-
-                // d=1 para PC (tus valores exactos), d=0.45 para móvil (ajuste de escala para que no salgan de pantalla)
-                const d = isDesktop ? 1 : 0.45;
-
-                const heroTimeline = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: ".scroll-section",
-                        start: "top top",
-                        end: "+=3000", // Define la longitud del scroll "falso"
-                        scrub: 1.5,
-                        pin: true, // CLAVE: Fija la sección visualmente
-                        invalidateOnRefresh: true,
-                        anticipatePin: 1
-                    }
-                });
-
-                // Rotación del conjunto (Exactamente como la tenías)
-                heroTimeline.to("#orbitalContainer", { rotation: 90, ease: "power1.inOut" }, 0);
-
-                // Dispersión radial con tus coordenadas originales
-                heroTimeline.to(".img-1", { x: -450 * d, y: -300 * d, rotation: -105 }, 0);
-                heroTimeline.to(".img-2", { x: 50 * d, y: -450 * d, rotation: -80 }, 0);
-                heroTimeline.to(".img-3", { x: 500 * d, y: -320 * d, rotation: -85 }, 0);
-                heroTimeline.to(".img-4", { x: 600 * d, y: 50 * d, rotation: -100 }, 0);
-                heroTimeline.to(".img-5", { x: 450 * d, y: 400 * d, rotation: -75 }, 0);
-                heroTimeline.to(".img-6", { x: -50 * d, y: 500 * d, rotation: -95 }, 0);
-                heroTimeline.to(".img-7", { x: -550 * d, y: 350 * d, rotation: -102 }, 0);
-                heroTimeline.to(".img-8", { x: -650 * d, y: -50 * d, rotation: -82 }, 0);
-
-                heroTimeline.to("#centerText", { opacity: 1, y: 0, duration: 0.5 }, 0.3);
-                heroTimeline.to(".image-card", { opacity: 0.9, scale: isDesktop ? 0.95 : 0.65, duration: 0.4 }, 0.7);
-
-                // PAUSA / HOLD: Tween vacío para mantener el estado final estático mientras se hace scroll
-                if (isDesktop) {
-                    heroTimeline.to({}, { duration: 0.8 });
+            // Timeline para la sección hero
+            const heroTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".scroll-section",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1.5
                 }
-
-                return () => { };
             });
 
-            // Animación de aparición del Footer (Solapamiento total)
+            heroTimeline.to("#orbitalContainer", { rotation: totalRotation, ease: "power1.inOut" }, 0);
+            heroTimeline.to(".img-1", { x: -450, y: -300, rotation: -105 }, 0);
+            heroTimeline.to(".img-2", { x: 50, y: -450, rotation: -80 }, 0);
+            heroTimeline.to(".img-3", { x: 500, y: -320, rotation: -85 }, 0);
+            heroTimeline.to(".img-4", { x: 600, y: 50, rotation: -100 }, 0);
+            heroTimeline.to(".img-5", { x: 450, y: 400, rotation: -75 }, 0);
+            heroTimeline.to(".img-6", { x: -50, y: 500, rotation: -95 }, 0);
+            heroTimeline.to(".img-7", { x: -550, y: 350, rotation: -102 }, 0);
+            heroTimeline.to(".img-8", { x: -650, y: -50, rotation: -82 }, 0);
+            heroTimeline.to("#centerText", { opacity: 1, y: 0, duration: 0.5 }, 0.3);
+            heroTimeline.to(".image-card", { opacity: 0.9, scale: 0.95, duration: 0.4 }, 0.7);
+
+            // APARICIÓN GRADUAL DEL FOOTER
             gsap.to("#footerReveal", {
+                opacity: 1,
+                y: 0,
                 scrollTrigger: {
                     trigger: "#footerReveal",
-                    start: "top bottom", // Empieza a subir en cuanto su borde superior entra en la pantalla
-                    end: "top top",
-                    scrub: true,
+                    start: "top 90%",
+                    end: "top 40%",
+                    scrub: 1,
                 }
             });
 
-            // Rotación infinita de la esfera
-            gsap.to("#footerSphere", { rotation: 360, duration: 100, repeat: -1, ease: "none" });
+            // Aparición de los textos del footer
+            gsap.to("#footerContent", {
+                opacity: 1,
+                y: 0,
+                scrollTrigger: {
+                    trigger: "#footerReveal",
+                    start: "top 70%",
+                    end: "top 30%",
+                    scrub: 1,
+                }
+            });
 
-            // Entrada de la esfera
+            // ROTACIÓN DE LA ESFERA
+            gsap.to("#footerSphere", {
+                rotation: 360,
+                duration: 50,
+                repeat: -1,
+                ease: "none"
+            });
+
+            // Movimiento orbital de la esfera
             gsap.fromTo("#footerSphere",
-                { y: 300, scale: 0.7, opacity: 0.3 },
+                { x: "-20%", y: 200, scale: 0.7, opacity: 0.3 },
                 {
-                    y: 0, scale: 1, opacity: 1,
+                    x: "0%",
+                    y: 0,
+                    scale: 1,
+                    opacity: 1,
                     scrollTrigger: {
                         trigger: "#footerReveal",
                         start: "top bottom",
@@ -410,8 +418,6 @@
                     }
                 }
             );
-
-            ScrollTrigger.refresh();
         };
     </script>
 </body>
